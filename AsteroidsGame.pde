@@ -175,6 +175,10 @@ public void keyPressed()
   {
       accel = .05;
   }
+  if(key == 's')
+  {
+    accel = -.05;
+  }
   if(key == 'h')
   {
     bob.setX((int)(Math.random()*499));
@@ -189,7 +193,7 @@ public void keyReleased()
   {
     roat = 0;
   }
-  if(key == 'w')
+  if(key == 'w' || key == 's')
   {
     accel = 0;
   }
