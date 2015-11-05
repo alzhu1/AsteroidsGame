@@ -185,6 +185,7 @@ public void keyPressed()
     bob.setY((int)(Math.random()*499));
     bob.setDirectionX(0);
     bob.setDirectionY(0);
+    bob.setPointDirection((int)(Math.random()*360));
   }
 }
 public void keyReleased()
