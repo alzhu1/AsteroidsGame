@@ -1,5 +1,6 @@
 //your variable declarations here
 SpaceShip bob = new SpaceShip();
+Asteroid terry[];
 Star jeff[];
 int roat = 0;
 double accel = 0;
@@ -8,9 +9,14 @@ public void setup()
   //your code here
   size(500,500);
   jeff = new Star[300];
+  terry = new Asteroid[10];
   for(int i=0; i<jeff.length; i++)
   {
     jeff[i] = new Star();
+  }
+  for(int i=0; i<terry.length; i++)
+  {
+    terry[i] = new Asteroid();
   }
 }
 public void draw() 
@@ -27,6 +33,11 @@ public void draw()
   bob.accelerate(accel);
   bob.move();
   bob.show();
+  for(int i=0; i<terry.length; i++)
+  {
+    terry[i].move();
+    terry[i].show();
+  }
 }
 class SpaceShip extends Floater  
 {   
@@ -160,6 +171,50 @@ class Star
     stroke(0);
     ellipse((float)myX, (float)myY, 3, 3);
   }
+}
+class Asteroid extends Floater
+{
+  protected int rotSpd;
+  public Asteroid()
+  {
+    rotSpd = (int)(Math.random()*5);
+    corners = 6;
+    xCorners = new int[corners];
+    yCorners = new int[corners];
+    xCorners[0] = -40;
+    yCorners[0] = -40;
+    xCorners[1] = 0;
+    yCorners[1] = -60;
+    xCorners[2] = 28;
+    yCorners[2] = -32;
+    xCorners[3] = 16;
+    yCorners[3] = 4;
+    xCorners[4] = -4;
+    yCorners[4] = 8;
+    xCorners[5] = -32;
+    yCorners[5] = 0;
+    myColor = 255;
+    myCenterX = Math.random()*501;
+    myCenterY = Math.random()*501;
+    myDirectionX = Math.random()*3;
+    myDirectionY = Math.random()*3;
+    myPointDirection = Math.random()*501;
+  }
+  public void move()
+  {
+    rotate(rotSpd);
+    super.move();
+  }
+  public void setX(int x){myCenterX = x;};  
+  public int getX(){return (int)myCenterX;}   
+  public void setY(int y){myCenterY = y;}   
+  public int getY(){return (int)myCenterY;}   
+  public void setDirectionX(double x){myDirectionX = x;}   
+  public double getDirectionX(){return myDirectionX;}   
+  public void setDirectionY(double y){myDirectionY = y;}   
+  public double getDirectionY(){return myDirectionY;}   
+  public void setPointDirection(int degrees){myPointDirection = degrees;}   
+  public double getPointDirection(){return myPointDirection;} 
 }
 public void keyPressed()
 {
