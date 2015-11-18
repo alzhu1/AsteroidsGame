@@ -177,7 +177,7 @@ class Asteroid extends Floater
   protected int rotSpd;
   public Asteroid()
   {
-    rotSpd = (int)(Math.random()*5);
+    rotSpd = ((int)(Math.random()*5))-2;
     corners = 6;
     xCorners = new int[corners];
     yCorners = new int[corners];
