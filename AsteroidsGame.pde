@@ -1,6 +1,6 @@
 //your variable declarations here
 SpaceShip bob = new SpaceShip();
-Asteroid terry[];
+ArrayList <Asteroid> terry;
 Star jeff[];
 int roat = 0;
 double accel = 0;
@@ -9,14 +9,14 @@ public void setup()
   //your code here
   size(500,500);
   jeff = new Star[300];
-  terry = new Asteroid[10];
+  terry = new ArrayList <Asteroid>();
   for(int i=0; i<jeff.length; i++)
   {
     jeff[i] = new Star();
   }
-  for(int i=0; i<terry.length; i++)
+  for(int i=0; i<11; i++)
   {
-    terry[i] = new Asteroid();
+    terry.add(new Asteroid());
   }
 }
 public void draw() 
@@ -33,10 +33,17 @@ public void draw()
   bob.accelerate(accel);
   bob.move();
   bob.show();
-  for(int i=0; i<terry.length; i++)
+  for(int i=0; i<terry.size(); i++)
   {
-    terry[i].move();
-    terry[i].show();
+    if(dist(bob.getX(), bob.getY(), terry.get(i).getX(), terry.get(i).getY())<35)
+    {
+      terry.remove(i);
+    }
+    else
+    {
+      terry.get(i).move();
+      terry.get(i).show();
+    }
   }
 }
 class SpaceShip extends Floater  
@@ -193,7 +200,7 @@ class Asteroid extends Floater
     yCorners[4] = 8;
     xCorners[5] = -32;
     yCorners[5] = 0;
-    myColor = 255;
+    myColor = 204;
     myCenterX = Math.random()*501;
     myCenterY = Math.random()*501;
     myDirectionX = Math.random()*3;
