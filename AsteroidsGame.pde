@@ -35,14 +35,14 @@ public void draw()
   bob.show();
   for(int i=0; i<terry.size(); i++)
   {
-    if(dist(bob.getX(), bob.getY(), terry.get(i).getX(), terry.get(i).getY())<35)
+    terry.get(i).show();
+    if(dist(bob.getX(), bob.getY(), terry.get(i).getX(), terry.get(i).getY())<20)
     {
       terry.remove(i);
     }
     else
     {
       terry.get(i).move();
-      terry.get(i).show();
     }
   }
 }
@@ -54,20 +54,20 @@ class SpaceShip extends Floater
       corners = 7;
       xCorners = new int[corners];
       yCorners = new int[corners];
-      xCorners[0] = -8;
-      yCorners[0] = -8;
+      xCorners[0] = -4;
+      yCorners[0] = -4;
       xCorners[1] = 0;
-      yCorners[1] = -5;
-      xCorners[2] = -5;
-      yCorners[2] = -13;
-      xCorners[3] = 16;
+      yCorners[1] = -3;
+      xCorners[2] = -3;
+      yCorners[2] = -7;
+      xCorners[3] = 8;
       yCorners[3] = 0;
-      xCorners[4] = -5;
-      yCorners[4] = 13;
+      xCorners[4] = -3;
+      yCorners[4] = 7;
       xCorners[5] = 0;
-      yCorners[5] = 5;
-      xCorners[6] = -8;
-      yCorners[6] = 8;
+      yCorners[5] = 3;
+      xCorners[6] = -4;
+      yCorners[6] = 4;
       myColor = 255;
       myCenterX = 250;
       myCenterY = 250;
@@ -188,17 +188,17 @@ class Asteroid extends Floater
     corners = 6;
     xCorners = new int[corners];
     yCorners = new int[corners];
-    xCorners[0] = -40;
-    yCorners[0] = -40;
+    xCorners[0] = -20;
+    yCorners[0] = -20;
     xCorners[1] = 0;
-    yCorners[1] = -60;
-    xCorners[2] = 28;
-    yCorners[2] = -32;
-    xCorners[3] = 16;
-    yCorners[3] = 4;
-    xCorners[4] = -4;
-    yCorners[4] = 8;
-    xCorners[5] = -32;
+    yCorners[1] = -30;
+    xCorners[2] = 14;
+    yCorners[2] = -16;
+    xCorners[3] = 8;
+    yCorners[3] = 2;
+    xCorners[4] = -2;
+    yCorners[4] = 4;
+    xCorners[5] = -16;
     yCorners[5] = 0;
     myColor = 204;
     myCenterX = Math.random()*501;
