@@ -1,6 +1,7 @@
 //your variable declarations here
 SpaceShip bob = new SpaceShip();
 ArrayList <Asteroid> terry;
+ArrayList <Bullet> bang;
 Star jeff[];
 int roat = 0;
 double accel = 0;
@@ -10,21 +11,20 @@ public void setup()
   size(500,500);
   jeff = new Star[300];
   terry = new ArrayList <Asteroid>();
+  bang = new ArrayList <Bullet>();
   for(int i=0; i<jeff.length; i++)
   {
     jeff[i] = new Star();
   }
-  for(int i=0; i<11; i++)
+  for(int i=0; i<8; i++)
   {
-    terry.add(new Asteroid());
+    terry.add(i,new Asteroid());
   }
 }
 public void draw() 
 {
   //your code here
   background(0);
-  int x = bob.getX();
-  int y = bob.getY();
   for(int i=0; i<jeff.length; i++)
   {
     jeff[i].show();
@@ -33,58 +33,37 @@ public void draw()
   bob.accelerate(accel);
   bob.move();
   bob.show();
+  for(int i=0; i<bang.size(); i++)
+  {
+    bang.get(i).move();
+    bang.get(i).show();
+    if(bang.get(i).getX()<1 || bang.get(i).getX()>width-1 || bang.get(i).getY()<1 || bang.get(i).getY()>height-1)
+    {
+      bang.remove(i);
+    }
+  }
   for(int i=0; i<terry.size(); i++)
   {
     terry.get(i).show();
     if(dist(bob.getX(), bob.getY(), terry.get(i).getX(), terry.get(i).getY())<20)
     {
       terry.remove(i);
+      terry.add(0,new Asteroid());
     }
     else
     {
       terry.get(i).move();
     }
-  }
-}
-class SpaceShip extends Floater  
-{   
-    //your code here
-    public SpaceShip()
+    for(int j=0; j<bang.size(); j++)
     {
-      corners = 7;
-      xCorners = new int[corners];
-      yCorners = new int[corners];
-      xCorners[0] = -4;
-      yCorners[0] = -4;
-      xCorners[1] = 0;
-      yCorners[1] = -3;
-      xCorners[2] = -3;
-      yCorners[2] = -7;
-      xCorners[3] = 8;
-      yCorners[3] = 0;
-      xCorners[4] = -3;
-      yCorners[4] = 7;
-      xCorners[5] = 0;
-      yCorners[5] = 3;
-      xCorners[6] = -4;
-      yCorners[6] = 4;
-      myColor = 255;
-      myCenterX = 250;
-      myCenterY = 250;
-      myDirectionX = 0;
-      myDirectionY = 0;
-      myPointDirection = 0;
+      if(dist(bang.get(j).getX(), bang.get(j).getY(), terry.get(i).getX(), terry.get(i).getY())<20)
+      {
+        bang.remove(j);
+        terry.remove(i);
+        terry.add(0, new Asteroid());
+      }
     }
-    public void setX(int x){myCenterX = x;};  
-    public int getX(){return (int)myCenterX;}   
-    public void setY(int y){myCenterY = y;}   
-    public int getY(){return (int)myCenterY;}   
-    public void setDirectionX(double x){myDirectionX = x;}   
-    public double getDirectionX(){return myDirectionX;}   
-    public void setDirectionY(double y){myDirectionY = y;}   
-    public double getDirectionY(){return myDirectionY;}   
-    public void setPointDirection(int degrees){myPointDirection = degrees;}   
-    public double getPointDirection(){return myPointDirection;} 
+  }
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
@@ -105,7 +84,6 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   abstract public double getDirectionY(); 
   abstract public void setPointDirection(int degrees);
   abstract public double getPointDirection();
-
   //Accelerates the floater in the direction it is pointing (myPointDirection)   
   public void accelerate (double dAmount)   
   {          
@@ -161,6 +139,46 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     }   
     endShape(CLOSE);  
   }   
+}
+class SpaceShip extends Floater  
+{   
+  //your code here
+  public SpaceShip()
+  {
+    corners = 7;
+    xCorners = new int[corners];
+    yCorners = new int[corners];
+    xCorners[0] = -4;
+    yCorners[0] = -4;
+    xCorners[1] = 0;
+    yCorners[1] = -3;
+    xCorners[2] = -3;
+    yCorners[2] = -7;
+    xCorners[3] = 8;
+    yCorners[3] = 0;
+    xCorners[4] = -3;
+    yCorners[4] = 7;
+    xCorners[5] = 0;
+    yCorners[5] = 3;
+    xCorners[6] = -4;
+    yCorners[6] = 4;
+    myColor = 255;
+    myCenterX = 250;
+    myCenterY = 250;
+    myDirectionX = 0;
+    myDirectionY = 0;
+    myPointDirection = 0;
+  }
+  public void setX(int x){myCenterX = x;};  
+  public int getX(){return (int)myCenterX;}   
+  public void setY(int y){myCenterY = y;}   
+  public int getY(){return (int)myCenterY;}   
+  public void setDirectionX(double x){myDirectionX = x;}   
+  public double getDirectionX(){return myDirectionX;}   
+  public void setDirectionY(double y){myDirectionY = y;}   
+  public double getDirectionY(){return myDirectionY;}   
+  public void setPointDirection(int degrees){myPointDirection = degrees;}   
+  public double getPointDirection(){return myPointDirection;} 
 }
 class Star
 {
@@ -223,6 +241,34 @@ class Asteroid extends Floater
   public void setPointDirection(int degrees){myPointDirection = degrees;}   
   public double getPointDirection(){return myPointDirection;} 
 }
+class Bullet extends Floater
+{
+  public Bullet(SpaceShip theShip)
+  {
+    myCenterX = theShip.getX();
+    myCenterY = theShip.getY();
+    myPointDirection = theShip.getPointDirection();
+    double dRadians = myPointDirection*(Math.PI/180);
+    myDirectionX = 5*Math.cos(dRadians)+theShip.getDirectionX();
+    myDirectionY = 5*Math.sin(dRadians)+theShip.getDirectionY();
+  }
+  public void show()
+  {
+    fill(200,0,0);
+    stroke(0);
+    ellipse((float)(myCenterX),(float)(myCenterY),5,5);
+  }
+  public void setX(int x){myCenterX = x;};  
+  public int getX(){return (int)myCenterX;}   
+  public void setY(int y){myCenterY = y;}   
+  public int getY(){return (int)myCenterY;}   
+  public void setDirectionX(double x){myDirectionX = x;}   
+  public double getDirectionX(){return myDirectionX;}   
+  public void setDirectionY(double y){myDirectionY = y;}   
+  public double getDirectionY(){return myDirectionY;}   
+  public void setPointDirection(int degrees){myPointDirection = degrees;}   
+  public double getPointDirection(){return myPointDirection;} 
+}
 public void keyPressed()
 {
   if(key == 'd')
@@ -248,6 +294,10 @@ public void keyPressed()
     bob.setDirectionX(0);
     bob.setDirectionY(0);
     bob.setPointDirection((int)(Math.random()*360));
+  }
+  if(key == ' ')
+  {
+    bang.add(new Bullet(bob));
   }
 }
 public void keyReleased()
