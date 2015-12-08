@@ -5,6 +5,9 @@ ArrayList <Bullet> bang;
 Star jeff[];
 int roat = 0;
 double accel = 0;
+int deathCount = 0;
+int score = 0;
+int highScore = 0;
 public void setup() 
 {
   //your code here
@@ -49,6 +52,16 @@ public void draw()
     {
       terry.remove(i);
       terry.add(0,new Asteroid());
+      deathCount++;
+      bob.setX(250);
+      bob.setY(250);
+      bob.setDirectionX(0);
+      bob.setDirectionY(0);
+      if(score>highScore)
+      {
+        highScore = score;
+      }
+      score = 0;
     }
     else
     {
@@ -61,9 +74,14 @@ public void draw()
         bang.remove(j);
         terry.remove(i);
         terry.add(0, new Asteroid());
+        score++;
       }
     }
   }
+  fill(255);
+  text("You have died: " + deathCount + " times", 5, 15);
+  text("Score: " + score, 5, 28);
+  text("High Score " + highScore, 5, 41);
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
