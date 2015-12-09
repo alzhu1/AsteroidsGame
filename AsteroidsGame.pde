@@ -81,7 +81,7 @@ public void draw()
   fill(255);
   text("You have died: " + deathCount + " times", 5, 15);
   text("Score: " + score, 5, 28);
-  text("High Score " + highScore, 5, 41);
+  text("High Score: " + highScore, 5, 41);
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
@@ -291,15 +291,15 @@ public void keyPressed()
 {
   if(key == 'd')
   {
-    roat = 3;
+    roat = 5;
   }
   else if(key == 'a')
   {
-    roat = -3;
+    roat = -5;
   }
   if(key == 'w')
   {
-      accel = .05;
+    accel = .05;
   }
   if(key == 's')
   {
