@@ -8,6 +8,8 @@ double accel = 0;
 int deathCount = 0;
 int score = 0;
 int highScore = 0;
+int powerFill = 0;
+boolean powerUp = false;
 public void setup() 
 {
   //your code here
@@ -62,6 +64,7 @@ public void draw()
         highScore = score;
       }
       score = 0;
+      powerFill=0;
     }
     else
     {
@@ -75,6 +78,10 @@ public void draw()
         terry.remove(i);
         terry.add(0, new Asteroid());
         score++;
+        if(powerFill>-100)
+        {
+          powerFill--;
+        }
       }
     }
   }
@@ -82,6 +89,20 @@ public void draw()
   text("You have died: " + deathCount + " times", 5, 15);
   text("Score: " + score, 5, 28);
   text("High Score: " + highScore, 5, 41);
+  rect(470, 10, 20, 100);
+  fill(255, 0, 0);
+  rect(470, 110, 20, powerFill);
+  if(powerUp)
+  {
+    if(powerFill<=0)
+    {
+      powerFill++;
+    }
+    else 
+    {
+      powerUp=false;
+    }
+  }
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
@@ -261,14 +282,40 @@ class Asteroid extends Floater
 }
 class Bullet extends Floater
 {
-  public Bullet(SpaceShip theShip)
+  public Bullet(SpaceShip theShip, int powerSet)
   {
     myCenterX = theShip.getX();
     myCenterY = theShip.getY();
     myPointDirection = theShip.getPointDirection();
     double dRadians = myPointDirection*(Math.PI/180);
-    myDirectionX = 5*Math.cos(dRadians)+theShip.getDirectionX();
-    myDirectionY = 5*Math.sin(dRadians)+theShip.getDirectionY();
+    if(powerUp)
+    {
+      if(powerSet==0)
+      {
+        myDirectionX = 10*Math.cos(dRadians)+theShip.getDirectionX();
+        myDirectionY = 10*Math.sin(dRadians)+theShip.getDirectionY();
+      }
+      if(powerSet==1)
+      {
+        myDirectionX = -10*Math.cos(dRadians)+theShip.getDirectionX();
+        myDirectionY = -10*Math.sin(dRadians)+theShip.getDirectionY();
+      }
+      if(powerSet==2)
+      {
+        myDirectionX = 10*Math.cos(dRadians+(Math.PI/2))+theShip.getDirectionX();
+        myDirectionY = 10*Math.sin(dRadians+(Math.PI/2))+theShip.getDirectionY();
+      }
+      if(powerSet==3)
+      {
+        myDirectionX = 10*Math.cos(dRadians-(Math.PI/2))+theShip.getDirectionX();
+        myDirectionY = 10*Math.sin(dRadians-(Math.PI/2))+theShip.getDirectionY();
+      }
+    }
+    else
+    {
+      myDirectionX = 5*Math.cos(dRadians)+theShip.getDirectionX();
+      myDirectionY = 5*Math.sin(dRadians)+theShip.getDirectionY();
+    }
   }
   public void show()
   {
@@ -315,7 +362,17 @@ public void keyPressed()
   }
   if(key == ' ')
   {
-    bang.add(new Bullet(bob));
+    bang.add(new Bullet(bob,0));
+    bang.add(new Bullet(bob,1));
+    bang.add(new Bullet(bob,2));
+    bang.add(new Bullet(bob,3));
+  }
+  if(key == 'p')
+  {
+    if(powerFill==-100)
+    {
+      powerUp=true;
+    }
   }
 }
 public void keyReleased()
